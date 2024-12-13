@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="">
+
+  <title> Maha Kamarapu </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    .footer_social a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #000; /* Default icon color */
+      font-size: 24px; /* Icon size */
+      transition: color 0.3s;
+    }
+  
+    .footer_social a:hover {
+      color: #007bff; /* Change color on hover */
+    }
+  
+    .footer_social {
+      display: flex;
+      justify-content: center; /* Center the icons */
+      margin-top: 20px;
+    }
+  </style>
+  
+
+
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <div class="bg-box">
+      <img src="images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span>
+              Maha Kamarapu
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mx-auto ">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="products">Menu <span class="sr-only">(current)</span> </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about">About</a>
+              </li>
+            </ul>
+            <div class="user_option">
+         
+              <a href="/book" class="order_online">
+                Book a Table
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+  <!-- food section -->
+
+ 
+
+
+
+
+ 
+  <section class="cart container mt-2 my-3 py-5">
+    <div class="container mt-2">
+      <h4>Your Cart</h4>
+    </div>
+
+    <table class="pt-5" style="width: 100%">
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+      </tr>
+
+
+      
+      <% cart.forEach(function(item) { %>
+     
+          <tr>
+            <td>
+              <div class="product-info">
+                <img style="width:50px; height:50px"  src="images/<%= item.image %>">
+                <div>
+                  <p><%= item.name %></p>
+
+                  <% if(item.sale_price){ %>
+                    <small><span>$</span><%= item.sale_price %></small>
+                 <% } else { %>   
+                  <small><span>$</span><%= item.price %></small>
+                  <% } %>
+                  <br>
+
+
+                  <form method="post" action="/remove_product"> 
+                    
+                        <input type="hidden" name="id" value="<%= item._id %>">
+                        <input type="submit" name="remove_btn" class="remove-btn" value="remove">
+                  </form>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <form method="post" action="/edit_product_quantity">
+              
+                <input type="hidden" value="<%= item._id %>" name="id">
+                <input type="submit" value="-" class="edit-btn" name="decrease_product_quantity">
+                <input type="text" name="quantity" value="<%= item.quantity %>" readonly>
+                <input type="submit" value="+" class="edit-btn" name="increase_product_quantity">
+              </form>
+
+              
+            </td>
+
+            <td>
+
+                <% if(item.sale_price){ %>
+                   <span class="product-price">$ <%= item.sale_price * item.quantity %></span>
+                <% } else { %> 
+                    <span class="product-price">$ <%= item.price * item.quantity %></span>
+                <% } %>    
+              
+            </td>
+          </tr>
+     
+          <% }) %> 
+        
+    </table>
+
+
+
+
+    <div class="cart-total">
+      <table>
+        
+        <tr>
+          <td>Total</td>
+       
+            <td>$ <%= total %></td>
+          
+        </tr>
+        
+      </table>
+    </div>
+    
+    
+
+    
+    <div class="checkout-container">
+
+      <form method="get" action="/checkout">
+        <input type="submit" class="btn checkout-btn" value="Checkout" name="">
+      </form>
+ 
+    </div>
+
+
+
+
+
+
+  </section>
+
+  <!-- end food section -->
+
+<!-- footer section -->
+<footer class="footer_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 footer-col">
+        <div class="footer_contact">
+          <h4>
+            Contact Us
+          </h4>
+          <div class="contact_link_box">
+            <a href="">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <span>
+                Location
+              </span>
+            </a>
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>
+                Call +91 1234567890
+              </span>
+            </a>
+            <a href="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span>
+                epicurean@gmail.com
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 footer-col">
+        <div class="footer_detail">
+          <a href="" class="footer-logo">
+            Epicurean
+          </a>
+          <p>
+            "Craving more? Follow us on social media for exclusive deals and updates!"
+          </p>
+          <div class="footer_social">
+            <a href="https://facebook.com" target="_blank">
+              <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank">
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank">
+              <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank">
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+            <a href="https://pinterest.com" target="_blank">
+              <i class="fa fa-pinterest" aria-hidden="true"></i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-4 footer-col">
+        <h4>
+          Opening Hours
+        </h4>
+        <p>
+          Everyday
+        </p>
+        <p>
+          10.00 Am -10.00 Pm
+        </p>
+      </div>
+    </div>
+    <div class="footer-info">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="/">Epicurean</a>
+      </p>
+    </div>
+  </div>
+</footer>
+<!-- footer section -->
+
+<!-- jQery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- isotope js -->
+  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <!-- custom js -->
+  <script src="js/custom.js"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- End Google Map -->
+
+</body>
+
+</html>
+
